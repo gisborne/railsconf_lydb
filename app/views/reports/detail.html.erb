@@ -1,0 +1,19 @@
+<% columns = @rows.first.attributes.keys %>
+<table>
+  <tr>
+    <% columns.each do |column| %>
+        <th>
+          <%= column.humanize %>
+        </th>
+    <% end %>
+  </tr>
+  <% @rows.each do |row| %>
+      <tr>
+        <% columns.each do |column| %>
+            <td>
+              <%= ([*row[column]].join '<br>').html_safe %>
+            </td>
+        <% end %>
+      </tr>
+  <% end %>
+</table>
