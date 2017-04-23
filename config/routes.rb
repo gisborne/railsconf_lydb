@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :products
+  resources :products, param: :prod_id
   resources :orders
   resources :customers
   resources :categories
