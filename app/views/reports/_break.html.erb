@@ -1,0 +1,7 @@
+<tr>
+  <td colspan="0">
+    <%= meta = JSON.parse(row['_meta'])['break']
+    "<h#{meta[0]}>#{meta[1]}</h#{meta[0]}>".html_safe
+    %>
+  </td>
+</tr>

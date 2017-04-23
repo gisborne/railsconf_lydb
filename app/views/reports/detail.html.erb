@@ -1,4 +1,9 @@
-<% columns = @rows.first.attributes.keys %>
+<%  columns = @rows.first.attributes.keys
+    if columns.include? '_meta'
+      columns.delete '_meta'
+      meta = true
+    end
+%>
 <table>
   <tr>
     <% columns.each do |column| %>
@@ -8,6 +13,7 @@
     <% end %>
   </tr>
   <% @rows.each do |row| %>
+      <%= render partial: 'break', locals: {row: row} if meta && row['_meta'].present? %>
       <tr>
         <% columns.each do |column| %>
             <td>
