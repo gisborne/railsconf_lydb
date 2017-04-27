@@ -1,8 +1,8 @@
-<%  columns = @rows.first.attributes.keys
-    if columns.include? '_meta'
-      columns.delete '_meta'
-      meta = true
-    end
+<% columns = @rows.first.attributes.keys
+   if columns.include? '_meta'
+     columns.delete '_meta'
+     has_meta = true
+   end
 %>
 <table>
   <tr>
@@ -13,12 +13,20 @@
     <% end %>
   </tr>
   <% @rows.each do |row| %>
-      <%= render partial: 'break', locals: {row: row} if meta && row['_meta'].present? %>
+      <% if has_meta && row['_meta'] != {} && (meta = row['_meta'])%>
+          <%= render partial: 'break',
+              locals: {meta: meta['break']} if meta['break'].present? %>
+          <% col_overrides = meta %>
+      <% end %>
       <tr>
         <% columns.each do |column| %>
-            <td>
-              <%= ([*row[column]].join '<br>').html_safe %>
-            </td>
+            <% if col_overrides && col = (col_overrides['raw'][column] rescue nil) %>
+                <%= col.html_safe %>
+            <% else %>
+                <td>
+                  <%= ([*row[column]].join '<br>').html_safe %>
+                </td>
+            <% end %>
         <% end %>
       </tr>
   <% end %>
